@@ -7,5 +7,5 @@ using std::cout, std::string;
 
 Window::Window()
 {
-  cout << "othertest\n";
+  MainMenu();
 }

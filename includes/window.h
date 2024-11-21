@@ -1,7 +1,9 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-class Window
+#include "screens.h"
+
+class Window : MainScreens
 {
   public:
     Window();

@@ -19,15 +19,9 @@ using std::string, std::ifstream, std::vector, std::make_shared, std::filesystem
 //! STYLE DEFINITIONS
 //!
 
-ButtonOption Style() {
-  auto option = ButtonOption::Animated();
-
-  return option;
-}
-
-//!
 //!
 //! END STYLE DEFINITIONS
+//!
 
 //!
 //! MAINSCREENS CLASS DEFINITIONS
@@ -37,20 +31,19 @@ void MainScreens::MainMenu() //*
 {
   auto screen = ScreenInteractive::Fullscreen();
 
-  bool hoverStartBtn = false;
-  bool hoverQuitBtn = false;
+  bool s = false;
+  bool q = false;
 
-  auto startBtn = Button("start", [&] { screen.ExitLoopClosure()(); system("clear"); }, Style());
-  auto quitBtn = Button("quit", [&] { system("clear"); exit(0); }, Style());
-
-  startBtn |= Hoverable(&hoverStartBtn);
-  quitBtn |= Hoverable(&hoverQuitBtn);
+  auto startBtn = Button("start", [&] { screen.ExitLoopClosure()(); system("clear"); }) | Hoverable(&s);
+  auto quitBtn = Button("quit", [&] { system("clear"); exit(0); }) | Hoverable(&q);
 
   Components y = {startBtn, quitBtn};
 
   auto buttons = make_shared<CustomContainerH>(y);
 
   auto mainMenu = Renderer(buttons, [&] {
+    auto sBackColor = (s) ? color(Color::Red) : color(Color::Blue);
+    auto qBackColor = (q) ? color(Color::Red) : color(Color::Blue);
     return vbox ({
       filler(),
       DisplaySprite("logoSPR") | center,
@@ -58,9 +51,9 @@ void MainScreens::MainMenu() //*
       hbox ({
         filler(),
         filler(),
-        startBtn->Render() | flex,
+        startBtn->Render() | flex | sBackColor,
         filler(),
-        quitBtn->Render() | flex,
+        quitBtn->Render() | flex | qBackColor,
         filler(),
         filler()
       }),

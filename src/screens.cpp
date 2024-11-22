@@ -2,16 +2,18 @@
 #include <vector>
 #include <filesystem>
 #include <fstream>
+#include <memory>
 
 #include <ftxui/dom/elements.hpp>
 #include <ftxui/component/component.hpp>
 #include "ftxui/component/screen_interactive.hpp" 
 
 #include "screens.h"
+#include "components.h"
 
 using namespace ftxui;
 
-using std::string, std::ifstream, std::vector, std::filesystem::exists, std::filesystem::current_path;
+using std::string, std::ifstream, std::vector, std::make_shared, std::filesystem::exists, std::filesystem::current_path;
 
 
 //!
@@ -24,29 +26,21 @@ void MainScreens::MainMenu() //*
 
   auto startBtn = Button("start", [&] { screen.ExitLoopClosure()(); system("clear");});
   auto quitBtn = Button("quit", [&] { system("clear"); exit(0);});
-  
-  auto mainMenu = Container::Horizontal({startBtn, quitBtn}, 0);
 
-  auto renderer = Renderer(mainMenu, [&] {
+  Components y = {startBtn, quitBtn};
+
+  auto buttons = make_shared<CustomContainerH>(y);
+
+  auto mainMenu = Renderer(buttons, [&] {
     return vbox ({
       filler(),
-      DisplaySprite("logoSPR") | center,
-      filler(),
-      hbox ({
-        filler(),
-        filler(),
-        startBtn->Render() | flex,
-        filler(),
-        quitBtn->Render() | flex,
-        filler(),
-        filler()
-      }),
-      filler(),
+      startBtn->Render(),
+      quitBtn->Render(),
       filler()
     });
   });
 
-  screen.Loop(renderer);
+  screen.Loop(mainMenu);
 }
 
 //!
@@ -84,3 +78,24 @@ Element DisplayMethods::DisplaySprite(string sprNameToDisplay)
 //!
 //! END DISPLAYMETHODS CLASS DEFINITIONS
 //!
+
+/*
+auto mainMenu = Renderer(buttons, [&] {
+    return vbox ({
+      filler(),
+      DisplaySprite("logoSPR") | center,
+      filler(),
+      hbox ({
+        filler(),
+        filler(),
+        startBtn->Render() | flex,
+        filler(),
+        quitBtn->Render() | flex,
+        filler(),
+        filler()
+      }),
+      filler(),
+      filler()
+    });
+  });
+*/

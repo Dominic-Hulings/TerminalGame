@@ -34,8 +34,18 @@ void MainScreens::MainMenu() //*
   auto mainMenu = Renderer(buttons, [&] {
     return vbox ({
       filler(),
-      startBtn->Render(),
-      quitBtn->Render(),
+      DisplaySprite("logoSPR") | center,
+      filler(),
+      hbox ({
+        filler(),
+        filler(),
+        startBtn->Render() | flex,
+        filler(),
+        quitBtn->Render() | flex,
+        filler(),
+        filler()
+      }),
+      filler(),
       filler()
     });
   });
@@ -78,24 +88,3 @@ Element DisplayMethods::DisplaySprite(string sprNameToDisplay)
 //!
 //! END DISPLAYMETHODS CLASS DEFINITIONS
 //!
-
-/*
-auto mainMenu = Renderer(buttons, [&] {
-    return vbox ({
-      filler(),
-      DisplaySprite("logoSPR") | center,
-      filler(),
-      hbox ({
-        filler(),
-        filler(),
-        startBtn->Render() | flex,
-        filler(),
-        quitBtn->Render() | flex,
-        filler(),
-        filler()
-      }),
-      filler(),
-      filler()
-    });
-  });
-*/

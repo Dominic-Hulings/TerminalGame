@@ -10,18 +10,9 @@ class CustomContainerH : public ftxui::ComponentBase
   public:
     CustomContainerH(ftxui::Components children) : children_(std::move(children)) {};
     ftxui::Element Render() override;
+    bool OnEvent(ftxui::Event event) override;
   private:
     ftxui::Components children_;
 };
 
-/*
-class CustomContainerH : public ftxui::ComponentBase
-{
-  public:
-    CustomContainerH(ftxui::Components children) : children_(std::move(children)) {};
-    ftxui::Element Render() override;
-  private:
-    ftxui::Components children_;
-};
-*/
 #endif

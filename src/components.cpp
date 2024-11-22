@@ -19,3 +19,15 @@ Element CustomContainerH::Render()
 
   return vbox(allElements);
 }
+
+bool CustomContainerH::OnEvent(Event event)
+{
+  for (Component& child : children_)
+  {
+    if (child->OnEvent(event))
+    {
+      return true;
+    }
+  }
+  return false;
+}

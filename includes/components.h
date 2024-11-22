@@ -15,4 +15,12 @@ class CustomContainerH : public ftxui::ComponentBase
     ftxui::Components children_;
 };
 
+class CustomButton : public ftxui::ComponentBase
+{
+  public:
+    CustomButton();
+  private:
+
+};
+
 #endif

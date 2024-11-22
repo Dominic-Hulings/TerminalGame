@@ -15,6 +15,19 @@ using namespace ftxui;
 
 using std::string, std::ifstream, std::vector, std::make_shared, std::filesystem::exists, std::filesystem::current_path;
 
+//!
+//! STYLE DEFINITIONS
+//!
+
+ButtonOption Style() {
+  auto option = ButtonOption::Animated();
+
+  return option;
+}
+
+//!
+//!
+//! END STYLE DEFINITIONS
 
 //!
 //! MAINSCREENS CLASS DEFINITIONS
@@ -24,8 +37,14 @@ void MainScreens::MainMenu() //*
 {
   auto screen = ScreenInteractive::Fullscreen();
 
-  auto startBtn = Button("start", [&] { screen.ExitLoopClosure()(); system("clear");});
-  auto quitBtn = Button("quit", [&] { system("clear"); exit(0);});
+  bool hoverStartBtn = false;
+  bool hoverQuitBtn = false;
+
+  auto startBtn = Button("start", [&] { screen.ExitLoopClosure()(); system("clear"); }, Style());
+  auto quitBtn = Button("quit", [&] { system("clear"); exit(0); }, Style());
+
+  startBtn |= Hoverable(&hoverStartBtn);
+  quitBtn |= Hoverable(&hoverQuitBtn);
 
   Components y = {startBtn, quitBtn};
 

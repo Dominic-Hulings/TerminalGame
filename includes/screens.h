@@ -13,6 +13,7 @@ class DisplayMethods
 class MainScreens : DisplayMethods
 {
   protected:
+    void EscScreen();
     void MainMenu();
 };
 

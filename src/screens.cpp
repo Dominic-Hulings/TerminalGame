@@ -34,16 +34,16 @@ void MainScreens::MainMenu() //*
   bool s = false;
   bool q = false;
 
-  auto startBtn = Button("start", [&] { screen.ExitLoopClosure()(); system("clear"); }) | Hoverable(&s);
+  auto startBtn = Button("start", [&] { screen.ExitLoopClosure()(); system("clear"); EscScreen(); }) | Hoverable(&s);
   auto quitBtn = Button("quit", [&] { system("clear"); exit(0); }) | Hoverable(&q);
 
-  Components y = {startBtn, quitBtn};
+  Components components = {startBtn, quitBtn};
 
-  auto buttons = make_shared<CustomContainerH>(y);
+  auto buttons = make_shared<CustomContainerH>(components);
 
   auto mainMenu = Renderer(buttons, [&] {
-    auto sBackColor = (s) ? color(Color::Red) : color(Color::Blue);
-    auto qBackColor = (q) ? color(Color::Red) : color(Color::Blue);
+    auto sBackColor = (s) ? color(Color::GrayLight) : color(Color::GrayDark);
+    auto qBackColor = (q) ? color(Color::GrayLight) : color(Color::GrayDark);
     return vbox ({
       filler(),
       DisplaySprite("logoSPR") | center,
@@ -63,6 +63,48 @@ void MainScreens::MainMenu() //*
   });
 
   screen.Loop(mainMenu);
+}
+
+void MainScreens::EscScreen()
+{
+  auto screen = ScreenInteractive::Fullscreen();
+
+  bool r = false;
+  bool e = false;
+
+  auto resumeBtn = Button("resume", [&] { screen.ExitLoopClosure()(); system("clear"); }) | Hoverable(&r);
+  auto exitBtn = Button("exit", [&] { screen.ExitLoopClosure()(); system("clear"); exit(0); }) | Hoverable(&e);
+
+  auto components = {resumeBtn, exitBtn};
+
+  auto buttons = make_shared<CustomContainerH>(components);
+
+  auto escMenu = Renderer(buttons, [&] {
+    auto rBackColor = (r) ? color(Color::GrayLight) : color(Color::GrayDark);
+    auto eBackColor = (e) ? color(Color::GrayLight) : color(Color::GrayDark);
+    return vbox ({
+      filler(),
+      hbox ({
+        filler(),
+        vbox ({
+          filler(),
+          filler(),
+          resumeBtn->Render() | flex | rBackColor,
+          filler(),
+          exitBtn->Render() | flex | eBackColor,
+          filler(),
+          filler(),
+          filler()
+        }),
+        filler(),
+        filler(),
+        filler()
+      }),
+      filler()
+    });
+  });
+
+  screen.Loop(escMenu);
 }
 
 //!

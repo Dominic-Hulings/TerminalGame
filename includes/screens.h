@@ -15,6 +15,7 @@ class MainScreens : DisplayMethods
   protected:
     void EscScreen();
     void MainMenu();
+    void NightSelect();
 };
 
 #endif

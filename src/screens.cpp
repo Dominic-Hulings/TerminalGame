@@ -27,15 +27,14 @@ using std::string, std::ifstream, std::vector, std::make_shared, std::filesystem
 //! MAINSCREENS CLASS DEFINITIONS
 //!
 
-void MainScreens::MainMenu() //*
+void MainScreens::MainMenu() //* MAIN MENU -----
 {
   auto screen = ScreenInteractive::Fullscreen();
 
-  bool s = false;
-  bool q = false;
+  bool s, q = false;
 
-  auto startBtn = Button("start", [&] { screen.ExitLoopClosure()(); system("clear"); EscScreen(); }) | Hoverable(&s);
-  auto quitBtn = Button("quit", [&] { system("clear"); exit(0); }) | Hoverable(&q);
+  auto startBtn = Button("Start", [&] { screen.ExitLoopClosure()(); system("clear"); NightSelect(); }) | Hoverable(&s);
+  auto quitBtn = Button("Quit", [&] { system("clear"); exit(0); }) | Hoverable(&q);
 
   Components components = {startBtn, quitBtn};
 
@@ -65,15 +64,14 @@ void MainScreens::MainMenu() //*
   screen.Loop(mainMenu);
 }
 
-void MainScreens::EscScreen()
+void MainScreens::EscScreen() //* ESC SCREEN -----
 {
   auto screen = ScreenInteractive::Fullscreen();
 
-  bool r = false;
-  bool e = false;
+  bool r, e = false;
 
-  auto resumeBtn = Button("resume", [&] { screen.ExitLoopClosure()(); system("clear"); }) | Hoverable(&r);
-  auto exitBtn = Button("exit", [&] { screen.ExitLoopClosure()(); system("clear"); exit(0); }) | Hoverable(&e);
+  auto resumeBtn = Button("Resume", [&] { screen.ExitLoopClosure()(); system("clear"); }) | Hoverable(&r);
+  auto exitBtn = Button("Exit", [&] { screen.ExitLoopClosure()(); system("clear"); exit(0); }) | Hoverable(&e);
 
   auto components = {resumeBtn, exitBtn};
 
@@ -105,6 +103,53 @@ void MainScreens::EscScreen()
   });
 
   screen.Loop(escMenu);
+}
+
+void MainScreens::NightSelect() //* NIGHT SELECT -----
+{
+  auto screen = ScreenInteractive::Fullscreen();
+
+  bool one, two, three, four, five = false; //* Bools to hold if a button is hoverable
+
+  auto nOneBtn = Button("Night 1", [&] { screen.ExitLoopClosure()(); system("clear"); }) | Hoverable(&one);
+  auto nTwoBtn = Button("Night 2", [&] { screen.ExitLoopClosure()(); system("clear"); }) | Hoverable(&two);
+  auto nThreeBtn = Button("Night 3", [&] { screen.ExitLoopClosure()(); system("clear"); }) | Hoverable(&three);
+  auto nFourBtn = Button("Night 4", [&] { screen.ExitLoopClosure()(); system("clear"); }) | Hoverable(&four);
+  auto nFiveBtn = Button("Night 5", [&] { screen.ExitLoopClosure()(); system("clear"); }) | Hoverable(&five);
+
+  auto components = {nOneBtn, nTwoBtn, nThreeBtn, nFourBtn, nFiveBtn};
+
+  auto buttons = make_shared<CustomContainerH>(components);
+
+  auto nightSelectMenu = Renderer(buttons, [&] {
+    auto oneBackColor = (one) ? color(Color::GrayLight) : color(Color::GrayDark);
+    auto twoBackColor = (two) ? color(Color::GrayLight) : color(Color::GrayDark);
+    auto threeBackColor = (three) ? color(Color::GrayLight) : color(Color::GrayDark);
+    auto fourBackColor = (four) ? color(Color::GrayLight) : color(Color::GrayDark);
+    auto fiveBackColor = (five) ? color(Color::GrayLight) : color(Color::GrayDark);
+
+    return vbox({
+      filler(),
+      hbox({
+        filler(),
+        filler(),
+        nOneBtn->Render() | flex | oneBackColor,
+        filler(),
+        nTwoBtn->Render() | flex | twoBackColor,
+        filler(),
+        nThreeBtn->Render() | flex | threeBackColor,
+        filler(),
+        nFourBtn->Render() | flex | fourBackColor,
+        filler(),
+        nFiveBtn->Render() | flex | fiveBackColor,
+        filler(),
+        filler()
+      }),
+      filler()
+    });
+  });
+
+  screen.Loop(nightSelectMenu);
 }
 
 //!
